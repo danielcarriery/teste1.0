@@ -1,337 +1,183 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rafael Patrick - Desenvolvedor Web Full Stack</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTTXABFN3y3zH+eF5PzZd1rJ9+K3I/5V1ZPj6DgKfDqg3HcX/8EUMF6oK3yXQ9gpr7ZpX2jZ9Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Questionário sobre Procrastinação</title>
   <style>
-      * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Roboto Mono', monospace;
-            background-color: #0A0A0A;
-            color: #FFFFFF;
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
-
-        header {
-            background: url('https://cpwebassets.codepen.io/assets/packs/profile-bg-optimized-a5ca8f46aca292507f629c62b09630ad.svg') no-repeat center center, linear-gradient(135deg, #0D0D0D 0%, #1A1A1A 100%);
-            background-size: cover;
-            padding: 40px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(0, 164, 239, 0.2), transparent 70%);
-            animation: pulse 10s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.5);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            color: #00A4EF;
-            z-index: 1;
-            position: relative;
-        }
-
-        header p {
-            font-size: 1.2em;
-            color: #CCCCCC;
-            z-index: 1;
-            position: relative;
-        }
-
-        nav {
-            margin-top: 20px;
-            z-index: 1;
-            position: relative;
-        }
-
-        nav a {
-            margin: 0 15px;
-            color: #FFFFFF;
-            text-decoration: none;
-            font-size: 1em;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        nav a::after {
-            content: '';
-            display: block;
-            width: 0;
-            height: 2px;
-            background: #00A4EF;
-            transition: width 0.3s;
-            margin: 0 auto;
-        }
-
-        nav a:hover {
-            color: #00A4EF;
-        }
-
-        nav a:hover::after {
-            width: 50%;
-        }
-
-        main {
-            padding: 60px 20px;
-            max-width: 100vw;
-            margin: 0 auto;
-        }
-
-        section {
-            margin-bottom: 60px;
-        }
-
-        section h2 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #00A4EF;
-            text-align: center;
-            position: relative;
-        }
-
-        section h2::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 3px;
-            background: #00A4EF;
-            margin: 10px auto;
-            border-radius: 5px;
-        }
-
-        #about p, #experience p {
-            font-size: 1.1em;
-            color: #CCCCCC;
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        #projects .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .project-card {
-            background: #1A1A1A;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(0, 164, 239, 0.1), transparent 70%);
-            transition: opacity 0.3s;
-            opacity: 0;
-        }
-
-        .project-card:hover::before {
-            opacity: 1;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 164, 239, 0.2);
-        }
-
-        .project-card h3 {
-            margin-bottom: 10px;
-            color: #FFFFFF;
-            font-size: 1.5em;
-        }
-
-        .project-card a {
-            color: #00A4EF;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .project-card a:hover {
-            color: #0080C0;
-        }
-
-        #contact .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 40px;
-        }
-
-        .contact-links a {
-            color: #FFFFFF;
-            font-size: 2em;
-            transition: color 0.3s;
-        }
-
-        .contact-links a:hover {
-            color: #00A4EF;
-        }
-
-        footer {
-            background: #0D0D0D;
-            text-align: center;
-            padding: 20px;
-            color: #666666;
-            font-size: 0.9em;
-        }
-
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 2.5em;
-            }
-
-            section h2 {
-                font-size: 2em;
-            }
-        }
-
-
-
-/* From Uiverse.io by csemszepp */ 
-body {
-  width: 100%;
-  height: 100%;
-  --s: 200px; /* control the size */
-  --c1: #1d1d1d;
-  --c2: #4e4f51;
-  --c3: #3c3c3c;
-
-  background: repeating-conic-gradient(
-        from 30deg,
-        #0000 0 120deg,
-        var(--c3) 0 180deg
-      )
-      calc(0.5 * var(--s)) calc(0.5 * var(--s) * 0.577),
-    repeating-conic-gradient(
-      from 30deg,
-      var(--c1) 0 60deg,
-      var(--c2) 0 120deg,
-      var(--c3) 0 180deg
-    );
-  background-size: var(--s) calc(var(--s) * 0.577);
-}
-
-main{
-  background: #000c;
-    width: 100vw !important;
-}
+    :root{--bg:#f7f8fb;--card:#ffffff;--accent:#4b6cff;--muted:#6b7280}
+    body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); margin:0; padding:24px; color:#111}
+    .container{max-width:900px;margin:0 auto}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    header h1{font-size:20px;margin:0}
+    .card{background:var(--card);border-radius:12px;padding:20px;box-shadow:0 6px 18px rgba(16,24,40,0.06)}
+    .q{margin-bottom:14px}
+    .q p{margin:0 0 8px 0;font-weight:600}
+    .options{display:flex;gap:8px}
+    label.option{flex:1;background:#f3f4f6;padding:8px;border-radius:8px;text-align:center;cursor:pointer}
+    input[type=radio]{display:none}
+    input[type=radio]:checked + .option{background:linear-gradient(180deg,var(--accent),#2c46d9);color:white}
+    .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+    button{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
+    .pay-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center}
+    .pay-box{background:white;padding:20px;border-radius:12px;max-width:420px;width:100%}
+    .muted{color:var(--muted);font-size:14px}
+    footer{margin-top:14px;font-size:13px;color:var(--muted)}
+    .result{white-space:pre-wrap}
+    .hidden{display:none}
   </style>
 </head>
-
 <body>
-
+  <div class="container">
     <header>
-        <h1>Rafael Patrick</h1>
-        <p>Desenvolvedor Web Full Stack JavaScript</p>
-        <nav>
-            <a href="#about">Sobre Mim</a>
-            <a href="#experience">Experiência</a>
-            <a href="#projects">Projetos</a>
-            <a href="#contact">Contato</a>
-        </nav>
+      <h1>Questionário sobre Procrastinação</h1>
+      <div class="muted">15 perguntas • Resultado e plano prático liberados após pagamento (R$6,00)</div>
     </header>
 
-    <main>
-        <section id="about">
-            <h2>Sobre Mim</h2>
-            <p>Sou um Desenvolvedor Web Full Stack especializado em JavaScript, apaixonado por criar soluções digitais inovadoras e eficientes. Com uma abordagem centrada no usuário, busco desenvolver interfaces amigáveis e experiências interativas que conectem pessoas e tecnologia de forma harmoniosa.</p>
-        </section>
+    <main class="card">
+      <form id="quiz">
+        <div id="questions"></div>
 
-        <section id="experience">
-            <h2>Experiência</h2>
-            <p>Com mais de 16 anos de experiência na área de tecnologia, transitei por diversos papéis até me consolidar como Desenvolvedor Full Stack. Minha trajetória me proporcionou habilidades sólidas em desenvolvimento de aplicações web, resolução de problemas complexos e colaboração em equipes multidisciplinares.</p>
-        </section>
+        <div class="actions">
+          <button type="submit">Enviar respostas</button>
+        </div>
+      </form>
 
-        <section id="projects">
-            <h2>Projetos</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <h3>Tesouro Didático</h3>
-                    <a href="https://tesourodidatico.com/" target="_blank">Visitar Site</a>
-                </div>
-                <div class="project-card">
-                    <h3>Peregrinarte</h3>
-                    <a href="https://peregrinarte.vercel.app" target="_blank">Visitar Site</a>
-                </div>
-                <div class="project-card">
-                    <h3>Faculdade Jesuíta</h3>
-                    <a href="https://faculdadejesuita.edu.br/" target="_blank">Visitar Site</a>
-                </div>
-                <div class="project-card">
-                    <h3>Padre Vaz</h3>
-                    <a href="https://padrevaz.com.br/" target="_blank">Visitar Site</a>
-                </div>
-                <div class="project-card">
-                    <h3>Passo a Pensar</h3>
-                    <a href="http://passoapensar.com.br/" target="_blank">Visitar Site</a>
-                </div>
-                <div class="project-card">
-                    <h3>Meu Site</h3>
-                    <a href="https://rafaelpatrick.com.br" target="_blank">Visitar Site</a>
-                </div>
-            </div>
-        </section>
+      <div id="payPrompt" class="hidden">
+        <p class="muted">Para ver o resultado completo e o plano de ação personalizado, é necessário pagar R$6,00.</p>
+        <div style="display:flex;gap:8px; margin-top:10px;">
+          <button id="payButton">Pagar R$6,00</button>
+          <button id="simulate" type="button" style="background:#10b981">Simular pagamento (teste)</button>
+        </div>
+      </div>
 
-        <section id="contact">
-            <h2>Contato</h2>
-            <div class="contact-links">
-                <a href="mailto:seuemail@dominio.com" target="_blank"><i class="fas fa-envelope"></i></a>
-                <a href="https://www.linkedin.com/in/seuperfil" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="https://github.com/seuusuario" target="_blank"><i class="fab fa-github"></i></a>
-            </div>
-        </section>
+      <div id="resultBox" class="hidden card" style="margin-top:12px">
+        <h3>Seu resultado</h3>
+        <div id="resultText" class="result"></div>
+      </div>
+
+      <footer>
+        <div class="muted">Observação: o botão de pagamento aqui é demonstrativo. Para integrar pagamentos reais (MercadoPago, PayPal, Stripe, etc.), substitua a função simulatePayment() pelo fluxo da sua plataforma e verifique requisitos legais locais.</div>
+      </footer>
     </main>
+  </div>
 
-    <footer>
-        &copy; 2024 Rafael Patrick. Todos os direitos reservados.
-    </footer>
+  <script>
+    // --- Perguntas (15) - escala 1 (Nunca) a 5 (Sempre) ---
+    const questions = [
+      'Eu frequentemente adio tarefas importantes mesmo sabendo das consequências.',
+      'Tenho dificuldade em começar tarefas mesmo quando sei exatamente o que fazer.',
+      'Distraio-me facilmente com redes sociais, mensagens ou vídeos.',
+      'Costumo subestimar o tempo necessário para concluir uma atividade.',
+      'Prefiro fazer tarefas mais agradáveis e deixar as difíceis para depois.',
+      'Sinto ansiedade antes de começar tarefas importantes.',
+      'Posso passar horas planejando sem realmente executar.',
+      'Adio decisões até que outras pessoas tomem por mim.',
+      'Perco prazos por começar tarefas em cima da hora.',
+      'Tenho dificuldade em manter disciplina com rotinas diárias.',
+      'Sinto remorso ou culpa após adiar algo importante.',
+      'Deixo tarefas que exigem criatividade para ' + 'quando estiver ' + 'com mais "inspiração".',
+      'Procrastino mesmo em tarefas que me trazem benefícios claros.',
+      'Adiar tarefas impacta meu sono ou bem-estar.',
+      'Já deixei oportunidades importantes passarem por adiar demais.'
+    ];
 
+    const questionsDiv = document.getElementById('questions');
+
+    questions.forEach((q, i) => {
+      const idx = i+1;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'q';
+      wrapper.innerHTML = `
+        <p>${idx}. ${q}</p>
+        <div class="options">
+          <label><input type="radio" name="q${idx}" value="1" required><span class="option">1<br><small class="muted">Nunca</small></span></label>
+          <label><input type="radio" name="q${idx}" value="2"><span class="option">2<br><small class="muted">Raramente</small></span></label>
+          <label><input type="radio" name="q${idx}" value="3"><span class="option">3<br><small class="muted">Às vezes</small></span></label>
+          <label><input type="radio" name="q${idx}" value="4"><span class="option">4<br><small class="muted">Frequentemente</small></span></label>
+          <label><input type="radio" name="q${idx}" value="5"><span class="option">5<br><small class="muted">Sempre</small></span></label>
+        </div>
+      `;
+      questionsDiv.appendChild(wrapper);
+    });
+
+    const quiz = document.getElementById('quiz');
+    const payPrompt = document.getElementById('payPrompt');
+    const payButton = document.getElementById('payButton');
+    const simulate = document.getElementById('simulate');
+    const resultBox = document.getElementById('resultBox');
+    const resultText = document.getElementById('resultText');
+
+    // Calcula pontuação
+    function calcScore(formData){
+      let sum = 0;
+      for(let i=1;i<=questions.length;i++){
+        const v = parseInt(formData.get('q'+i),10) || 0;
+        sum += v;
+      }
+      return sum;
+    }
+
+    // Gera texto de resultado e plano (detalhado) - guardado mas só mostra após pagamento
+    function generateReport(score){
+      const max = questions.length * 5;
+      let level;
+      if(score <= Math.round(max*0.35)) level = 'Baixa tendência à procrastinação';
+      else if(score <= Math.round(max*0.7)) level = 'Procrastinação moderada';
+      else level = 'Procrastinação alta';
+
+      // Recomendações práticas resumidas (pode ser ampliado)
+      const recommendations = {
+        'Baixa tendência à procrastinação': `Parabéns — você demonstra boa capacidade de iniciar e concluir tarefas. Manter rotinas, definir micro-objetivos (25–50 minutos) e revisar prioridades semanalmente ajuda a manter esse padrão.`,
+        'Procrastinação moderada': `Você adia tarefas de vez em quando. Experimente: 1) Técnica Pomodoro (25/5), 2) dividir tarefas em passos de 15–30 minutos, 3) eliminar distrações por períodos bloqueados, 4) usar recompensas pequenas ao concluir blocos.`,
+        'Procrastinação alta': `A procrastinação está afetando sua produtividade. Recomendações: 1) comece com tarefas de 10 minutos (efeito "inércia"), 2) peça responsabilização (parceiro/mentor), 3) use agendas visuais e bloqueadores de sites, 4) avalie aspectos emocionais (ansiedade/perfeccionismo) e, se necessário, procure apoio profissional.`
+      };
+
+      return `Pontuação: ${score} / ${max}\nNível: ${level}\n\nPlano prático:\n${recommendations[level]}`;
+    }
+
+    let pendingReport = null; // guarda o relatório até o pagamento
+
+    quiz.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(quiz);
+      const score = calcScore(fd);
+      pendingReport = generateReport(score);
+      // mostra prompt de pagamento
+      payPrompt.classList.remove('hidden');
+      window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+    });
+
+    // Simula pagamento (apenas para testes). Substitua por integração real de pagamentos.
+    function simulatePayment(){
+      // aqui você poderia exibir um modal de sucesso vindo do gateway
+      alert('Pagamento simulado com sucesso — desbloqueando resultado (modo teste).');
+      revealResult();
+    }
+
+    function revealResult(){
+      if(!pendingReport){
+        alert('Nenhum resultado gerado. Por favor, responda ao questionário primeiro.');
+        return;
+      }
+      resultText.textContent = pendingReport;
+      resultBox.classList.remove('hidden');
+      payPrompt.classList.add('hidden');
+    }
+
+    // Botões
+    simulate.addEventListener('click', simulatePayment);
+
+    payButton.addEventListener('click', ()=>{
+      // --- IMPLEMENTAÇÃO REAL DE PAGAMENTO ---
+      // Substitua esse trecho pelo redirecionamento para seu gateway (ex: MercadoPago/Stripe/PayPal).
+      // 1) Criar preferência/checkout no backend (quantia R$6,00) e retornar link seguro.
+      // 2) Redirecionar o usuário para o link. Ao confirmar o pagamento, seu webhook/backend deve
+      //    comunicar o front-end (ou marcar a sessão) para liberar o resultado.
+      // Como exemplo temporário, usamos a simulação abaixo:
+      simulatePayment();
+    });
+
+  </script>
 </body>
-
 </html>
