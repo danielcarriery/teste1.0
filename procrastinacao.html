@@ -1,0 +1,126 @@
+// src/App.jsx
+import React, { useState } from 'react';
+
+export default function App() {
+  const questions = [
+    'Eu frequentemente adio tarefas importantes mesmo sabendo das consequências.',
+    'Tenho dificuldade em começar tarefas mesmo quando sei exatamente o que fazer.',
+    'Distraio-me facilmente com redes sociais, mensagens ou vídeos.',
+    'Costumo subestimar o tempo necessário para concluir uma atividade.',
+    'Prefiro fazer tarefas mais agradáveis e deixar as difíceis para depois.',
+    'Sinto ansiedade antes de começar tarefas importantes.',
+    'Posso passar horas planejando sem realmente executar.',
+    'Adio decisões até que outras pessoas tomem por mim.',
+    'Perco prazos por começar tarefas em cima da hora.',
+    'Tenho dificuldade em manter disciplina com rotinas diárias.',
+    'Sinto remorso ou culpa após adiar algo importante.',
+    'Deixo tarefas que exigem criatividade para quando estiver com mais "inspiração".',
+    'Procrastino mesmo em tarefas que me trazem benefícios claros.',
+    'Adiar tarefas impacta meu sono ou bem-estar.',
+    'Já deixei oportunidades importantes passarem por adiar demais.'
+  ];
+
+  const [answers, setAnswers] = useState(Array(questions.length).fill(null));
+  const [submitted, setSubmitted] = useState(false);
+  const [pendingReport, setPendingReport] = useState(null);
+  const [showResult, setShowResult] = useState(false);
+  const [payModalOpen, setPayModalOpen] = useState(false);
+
+  function handleSelect(index, value) {
+    const copy = [...answers];
+    copy[index] = value;
+    setAnswers(copy);
+  }
+
+  function allAnswered() {
+    return answers.every(a => a !== null);
+  }
+
+  function calcScore(arr) {
+    return arr.reduce((s, v) => s + (parseInt(v, 10) || 0), 0);
+  }
+
+  function generateReport(score) {
+    const max = questions.length * 5;
+    let level;
+    if (score <= Math.round(max * 0.35)) level = 'Baixa tendência à procrastinação';
+    else if (score <= Math.round(max * 0.7)) level = 'Procrastinação moderada';
+    else level = 'Procrastinação alta';
+
+    const recommendations = {
+      'Baixa tendência à procrastinação': `Parabéns — você demonstra boa capacidade de iniciar e concluir tarefas.\nSugestões rápidas:\n• Mantenha rotinas e revise prioridades semanalmente.\n• Use micro-objetivos (25–50 minutos) e pausas programadas.`,
+      'Procrastinação moderada': `Você adia tarefas de vez em quando.\nEstratégias práticas:\n1) Técnica Pomodoro (25/5)\n2) Divida tarefas em blocos de 15–30 minutos\n3) Remova distrações\n4) Use check-ins com alguém de confiança.`,
+      'Procrastinação alta': `A procrastinação está afetando sua produtividade.\nPlano de ação:\n1) Comece tarefas de 10 minutos para vencer a inércia\n2) Defina recompensas pequenas\n3) Use bloqueadores de sites\n4) Considere apoio profissional se ansiedade/perfeccionismo estiver presente`
+    };
+
+    return { score, max, level, text: `Pontuação: ${score} / ${max}\nNível: ${level}\n\n${recommendations[level]}` };
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!allAnswered()) {
+      alert('Responda todas as perguntas antes de enviar.');
+      return;
+    }
+    const score = calcScore(answers);
+    const report = generateReport(score);
+    setPendingReport(report);
+    setSubmitted(true);
+    setPayModalOpen(true);
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  async function handleSimulatePayment() {
+    await new Promise(r => setTimeout(r, 600));
+    setShowResult(true);
+    setPayModalOpen(false);
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4">Descrubr seu Nível de Procrastinação</h1>
+      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow space-y-4">
+        {questions.map((q, i) => (
+          <div key={i} className="border rounded-lg p-4">
+            <div className="font-medium mb-2">{i + 1}. {q}</div>
+            <div className="grid grid-cols-5 gap-2">
+              {[1,2,3,4,5].map(v => (
+                <label key={v} className={`cursor-pointer select-none p-2 text-center rounded-md border ${answers[i] === v ? 'bg-indigo-600 text-white' : 'bg-gray-50'}`}>
+                  <input
+                    type="radio"
+                    name={`q${i}`}
+                    className="hidden"
+                    checked={answers[i] === v}
+                    onChange={() => handleSelect(i, v)}
+                  />
+                  <div className="text-lg font-semibold">{v}</div>
+                  <div className="text-xs text-gray-500">{v===1?'Nunca':v===2?'Raramente':v===3?'Às vezes':v===4?'Frequentemente':'Sempre'}</div>
+                </label>
+              ))}
+            </div>
+          </div>
+        ))}
+        <div className="flex justify-end mt-4">
+          <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg">Enviar respostas</button>
+        </div>
+      </form>
+
+      {submitted && !showResult && (
+        <div className="mt-6 p-4 bg-gray-50 border rounded-lg">
+          <p>Para ver o resultado completo, é necessário pagar R$6,00.</p>
+          <div className="flex gap-3 mt-2 justify-end">
+            <button onClick={() => setPayModalOpen(true)} className="px-4 py-2 bg-indigo-600 text-white rounded-lg">Pagar R$6,00</button>
+            <button onClick={handleSimulatePayment} className="px-4 py-2 bg-green-500 text-white rounded-lg">Simular pagamento (teste)</button>
+          </div>
+        </div>
+      )}
+
+      {showResult && pendingReport && (
+        <div className="mt-6 p-4 bg-white border rounded-lg shadow">
+          <h2 className="font-semibold mb-2">Seu resultado</h2>
+          <pre className="whitespace-pre-wrap">{pendingReport.text}</pre>
+        </div>
+      )}
+    </div>
+  );
+}
